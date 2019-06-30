@@ -1,17 +1,16 @@
-# README
+# 輸出リサーチシステム "メルスク"
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+友人の為のスクレイピングツール
 
-Things you may want to cover:
+## 開発環境
 
-* Ruby version
+* Ruby version ruby 2.6.3p62 (2019-04-16 revision 67580) 
 
-* System dependencies
+* Rails 5.2.3
 
-* Configuration
+* Cloud9
 
-* Database creation
+* Git
 
 * Database initialization
 
