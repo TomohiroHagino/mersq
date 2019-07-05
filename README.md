@@ -8,6 +8,6 @@
 
 * Rails 5.2.3
 
-* Cloud9
+* Cloud9 in CentOS (No AWS)
 
 * Git
