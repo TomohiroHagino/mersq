@@ -5,9 +5,11 @@ ruby '2.6.3'
 
 # railsが使えるようになる。
 gem 'rails', '~> 5.2.3'
-# Use Puma as the app server
+# appサーバーpumaが使えるようになる。
 gem 'puma', '~> 3.11'
-# Use SCSS for stylesheets
+# bootstrapが使えるようになる
+gem 'bootstrap-sass', '3.3.7'
+# SCSSが使えるようになる
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -33,6 +35,12 @@ gem 'jbuilder', '~> 2.5'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
+#ページネーションが使えるようになる。
+gem 'will_paginate',           '3.1.6'
+#上記のページネーションにbootstrapを適用する
+gem 'bootstrap-will_paginate', '1.0.0'
+#bootstrapが使えるようになる。
+gem 'bootstrap-sass', '3.3.7'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
