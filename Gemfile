@@ -1,6 +1,4 @@
 source 'https://rubygems.org'
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
-
 ruby '2.6.3'
 
 # railsが使えるようになる。
@@ -11,12 +9,12 @@ gem 'puma', '~> 3.11'
 gem 'bootstrap-sass', '3.3.7'
 # SCSSが使えるようになる
 gem 'sass-rails', '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
+# UJavaScriptのコードの改行や空白を削除して軽量化します。
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
-
-# Use CoffeeScript for .coffee assets and views
+gem 'jquery-rails'
+# railsでCoffeeScriptを使うためのgemです。
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
@@ -24,7 +22,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
-# Use ActiveModelのhas_secure_passwordが使える。
+# Use ActiveModelのhas_seccure_password
 gem 'bcrypt', '~> 3.1.7'
 
 # Use ActiveStorage variant
