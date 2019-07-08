@@ -52,6 +52,10 @@ p {
 
 /* header */
 
+.header-color {
+  background-color: tomato;
+}
+
 #logo {
   float: left;
   margin-right: 10px;
@@ -68,6 +72,20 @@ p {
   text-decoration: none;
 }
 
+#navbar-right-custom {
+  color: white;
+  letter-spacing: -1px;
+  font-weight: bold;
+  &:focus {
+    background-color: pink;
+  }
+  &:active {
+    background-color: lightsalmon;
+  }
+  &:hover {
+    background-color: coral;
+  }
+}
 
 /* debug */
 
@@ -96,4 +114,14 @@ p {
   .form-control {
     color: $state-danger-text;
   }
+}
+
+/* ログインフォーム */
+
+.label-login {
+  margin-top: 5px;
+}
+
+.btn-login {
+  margin-top: 10px;
 }
