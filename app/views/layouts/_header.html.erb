@@ -1,13 +1,29 @@
 <header class="navbar navbar-fixed-top navbar-inverse header-color">
   <div class="container">
-    <%= link_to "メルスク", root_path, id: "logo" %>
+    <%# ログイン中はタイトルボタンでユーザーページに繊維する。 %>
+      <%= link_to "メルスク", root_path, id: "logo" %>
     <nav>
+
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "スクレイピング", root_path, id:"navbar-right-custom" %></li>
         <li><%= link_to "使い方", root_path, id:"navbar-right-custom" %></li>
-        <li><%= link_to "トップ", root_path, id:"navbar-right-custom" %></li>
+        <li><%= link_to "ユーザー一覧ページ（こうじ）", root_path, id:"navbar-right-custom" %></li>
         <li><%= link_to "ログイン", login_path, id:"navbar-right-custom" %></li>
+        <%# ドロップダウンメニュー、クラスを編集して %>
+        <li class="dropdown" id="navbar-right-custom">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            アカウント <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "ユーザーページ", current_user, id:"navbar-right-custom" %></li>
+            <li><%= link_to "アカウント設定", '#' %></li>
+            <li class="divider"></li>
+            <li>
+            </li>
+          </ul>
+        </li>
       </ul>
+
     </nav>
   </div>
 </header>

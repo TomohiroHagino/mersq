@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  
   def show
     @user = User.find(params[:id])
   end
@@ -7,6 +8,15 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def scrape
+    @user = User.find(params[:id])
+  end
+
+  def how_to_use
+    @user = User.find(params[:id])
+  end
+
+  #ユーザー新規登録
   def create
     @user = User.new(user_params)
     if @user.save
@@ -16,7 +26,7 @@ class UsersController < ApplicationController
       render :new
     end
   end
-  
+
   private
 
   def user_params
