@@ -1,4 +1,7 @@
+<% if logged_in? %>
 <% provide(:title, "トップ") %>
+<%= render 'shared/user_info' %>
+<% else %>
 <div class="center jumbotron">
   <h1>メルスク</h1>
   <p>このアプリケーションでは、登録されたユーザーのスクレイピングした商品を閲覧することができます。</p>
