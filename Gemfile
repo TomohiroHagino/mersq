@@ -5,6 +5,10 @@ ruby '2.6.3'
 gem 'rails', '~> 5.2.3'
 # appサーバーpumaが使えるようになる。
 gem 'puma', '~> 3.11'
+# スクレイピングに必要になる
+gem 'nokogiri'
+
+gem 'activerecord-import'
 # bootstrapが使えるようになる
 gem 'bootstrap-sass', '3.3.7'
 # SCSSが使えるようになる

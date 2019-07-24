@@ -1,9 +1,11 @@
+<% if @user ||= current_user %>
 <% provide(:title, @user.name) %>
 <div>
   <h1>スクレイピング</h1>
     <tr>
-    <%= form_with(url:"#_path") do | search_item | %>
-    <%= search_item.text_field :id, class: "col-lg-6 col-md-8" %>
+    <%= form_with url: scrape_path, method: :get, local: true do | search_item | %>
+    <%= search_item.text_field :xxx, class: "col-lg-6 col-md-8 form-controll" %>
+    <%= search_item.hidden_field :id, :value => current_user, class: "col-lg-6 col-md-8 form-controll" %>
     <%= search_item.submit "抽出", class: "btn btn-primary form_date_select" %>
     <% end %>
     </tr>
@@ -13,12 +15,31 @@
 </div>
 <div>
   <table class="table table-bordered table-condensed user-table">
+    <colgroup>
+      <col style="width: 2%">
+      <col style="width: 5%">
+      <col style="width: 20%">
+      <col style="width: 10%">
+      <col style="width: 10%">
+      <col style="width: 10%">
+    </colgroup>
     <tr>
+      <td>削除</td>
       <td>イメージ</td>
       <td>タイトル</td>
       <td>URL</td>
       <td>出品額</td>
-      <td>ほげほげ</td>
+      <td>・・・</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>・・・</td>
     </tr>
   </table>
 </div>
+<% else %>
+<% end %>

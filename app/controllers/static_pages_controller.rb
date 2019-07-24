@@ -1,7 +1,9 @@
 class StaticPagesController < ApplicationController
+  #もしログイン中なら自動的にユーザーページに遷移する
   def top
-    user = params[:session][:id]
-    if user.logged_in?
+    if session[:user_id]
+      user = User.find_by(id: session[:user_id])
+    redirect_to user
     end
   end
 end

@@ -1,11 +1,10 @@
 Rails.application.routes.draw do
   root 'static_pages#top'
   get 'sessions/new'
-  
+
   get '/signup', to: 'users#new'
 
   # ヘッダーメニュー
-  get '/scrayping',     to: 'users#scrayping'
   get '/how_to_use',     to: 'users#how_to_use'
 
   # ログイン機能
@@ -15,4 +14,7 @@ Rails.application.routes.draw do
 
   # Restful
   resources :users
+
+  #スクレイピング
+  get '/scrape',     to: 'users#scrape'
 end
