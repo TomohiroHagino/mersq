@@ -18,8 +18,7 @@
             <li><%= link_to "ユーザーページ", current_user, id:"navbar-right-custom" %></li>
             <li><%= link_to "アカウント設定", '#' %></li>
             <li class="divider"></li>
-            <li>
-            </li>
+            <li><%= link_to "Log out", logout_path, method: :delete %></li>
           </ul>
         </li>
       </ul>

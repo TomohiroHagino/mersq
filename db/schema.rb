@@ -10,16 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_21_145013) do
+ActiveRecord::Schema.define(version: 2019_07_28_094818) do
 
   create_table "items", force: :cascade do |t|
     t.string "item_title"
     t.string "item_url"
-    t.integer "estimated_price"
+    t.integer "item_price"
+    t.integer "item_good"
+    t.string "item_type"
+    t.string "item_category"
+    t.string "item_brand"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "item_price"
-    t.string "item_image"
+    t.string "item_image1"
+    t.string "item_image2"
+    t.string "item_image3"
+    t.string "item_image4"
+    t.string "item_image5"
+    t.string "item_image6"
+    t.string "item_image7"
+    t.string "item_image8"
+    t.string "item_image9"
+    t.string "item_image10"
+    t.string "item_postage"
+    t.string "item_description"
+    t.string "item_days_to_ship"
   end
 
   create_table "users", force: :cascade do |t|
