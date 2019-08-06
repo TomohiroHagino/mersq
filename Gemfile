@@ -7,7 +7,10 @@ gem 'rails', '~> 5.2.3'
 gem 'puma', '~> 3.11'
 # スクレイピングに必要になる
 gem 'nokogiri'
-
+# API利用
+gem 'google-api-client', '<0.9'
+gem 'trollop', '~> 2.1'
+# BULK INSERT
 gem 'activerecord-import'
 # bootstrapが使えるようになる
 gem 'bootstrap-sass', '3.3.7'

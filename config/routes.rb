@@ -4,9 +4,6 @@ Rails.application.routes.draw do
 
   get '/signup', to: 'users#new'
 
-  # ヘッダーメニュー
-  get '/how_to_use',     to: 'users#how_to_use'
-
   # ログイン機能
   get    '/login', to: 'sessions#new'
   post   '/login', to: 'sessions#create'
@@ -16,5 +13,11 @@ Rails.application.routes.draw do
   resources :users
 
   #スクレイピング
-  get '/scrape',     to: 'users#scrape'
+  get 'users/:id/scrape',     to: 'users#scrape', as: :scrape
+  #CSVエクスポート
+  get 'users/:id/csv_export',     to: 'users#csv_export', as: :csv_export
+  #一部商品の削除
+  post 'users/:id/',     to: 'items#delete', as: :item_delete
+  # ヘッダーメニュー
+  get 'users/:id/how_to_use',     to: 'users#how_to_use', as: :users_how_to_use
 end

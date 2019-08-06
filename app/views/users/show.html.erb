@@ -1,45 +1,85 @@
 <% if @user ||= current_user %>
 <% provide(:title, @user.name) %>
-<div>
   <h1>スクレイピング</h1>
-    <tr>
+    <div class="center">
+    <b><font color="#FF0000">徒然なるままにWEBバージョン完成！・・・あともうちょっとで</font></b>
+    </div>
+    <div class="col-xs-12 col-md-12 col-lg-12">
     <%= form_with url: scrape_path, method: :get, local: true do | search_item | %>
-    <%= search_item.text_field :xxx, class: "col-lg-6 col-md-8 form-controll" %>
-    <%= search_item.hidden_field :id, :value => current_user, class: "col-lg-6 col-md-8 form-controll" %>
-    <%= search_item.submit "抽出", class: "btn btn-primary form_date_select" %>
+    <dt>
+      対象URL
+    </dt>
+    <dd>
+    <%= search_item.text_field :xxx, class: "form-control" %>
+    <%= search_item.hidden_field :id, :value => current_user %>
+    <%= search_item.submit "抽出", class: "btn btn-success form_date_select" %>
     <% end %>
-    </tr>
+    </dd>
+    </div>
+  </div>
+<br>
+<%= form_with(model: @item, local: true) do |f|%>
+<div class = "container">
+　<div class="center col-xs-1 col-md-1 col-lg-1"><%= f.submit "削除", class: "btn btn-danger" %></div>
+  <div class="center col-xs-4 col-md-4 col-lg-4"><%= link_to "CSVエクスポート", csv_export_path(format: :csv), class: "btn btn-primary" %></div>
 </div>
-<div>
-<%= button_to "CSVインポート", {controller: 'users', action: 'index'}, {method: :get, class: "btn btn-primary"} %>
-</div>
-<div>
-  <table class="table table-bordered table-condensed user-table">
+
+<div class = "container">
+  <table class="user-table">
     <colgroup>
-      <col style="width: 2%">
-      <col style="width: 5%">
+      <col style="width: 4%">
+      <col style="width: 6%">
       <col style="width: 20%">
-      <col style="width: 10%">
-      <col style="width: 10%">
+      <col style="width: 50%">
       <col style="width: 10%">
     </colgroup>
     <tr>
       <td>削除</td>
       <td>イメージ</td>
       <td>タイトル</td>
-      <td>URL</td>
+      <td>商品説明</td>
       <td>出品額</td>
-      <td>・・・</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>・・・</td>
     </tr>
   </table>
+  
+  <% @item_all_to_array.each do | scraping_item_list | %>
+  <table class="table table-hover my-table table-condensed user-table">
+    <colgroup>
+      <col style="width: 4%">
+      <col style="width: 6%">
+      <col style="width: 20%">
+      <col style="width: 50%">
+      <col style="width: 10%">
+    </colgroup>
+    <tr class="active">
+      <td>
+      <%= f.fields_for "items" do |fo|%>
+        <%= fo.fields_for "#{scraping_item_list.id}" do |item|%>
+        <%= item.check_box :send_delete_sign%>  
+        <% end %>
+      <% end %>
+      </td>
+      <td><a href="<%=scraping_item_list.item_image1%>"><img src="<%=scraping_item_list.item_image1%>" width="50" height="50" target="_blank"/></a></td>
+      <td><a href="<%=scraping_item_list.item_url%>" target="_blank"><%= scraping_item_list.item_title %></a></td>
+      <td><div class="scroll"><%= scraping_item_list.item_description %></div></td>
+      <td class="item-done clickable" data-toggle="collapse" data-target="#accordion<%= scraping_item_list.id %>"><%= scraping_item_list.item_price %></td>
+    </tr>
+    <tr>
+        <!-- 全角スペースで位置調整してある -->
+        <td colspan="5" class="item-accordion">
+          <div id="accordion<%= scraping_item_list.id %>" class="center collapse">
+            <div class="center col-xs-1 col-md-1 col-lg-1"></div>
+            <div class="center col-xs-3 col-md-3 col-lg-3"><%= scraping_item_list.item_type %></div>
+            <div class="center col-xs-6 col-md-6 col-lg-6"><%= scraping_item_list.item_days_to_ship %></div>
+            <div class="center col-xs-2 col-md-2 col-lg-2">　送料: <%= scraping_item_list.item_postage %></div>
+          </div>
+        </td>
+    </tr>
+  </table>
+  <% end %>
 </div>
+<% end %>
 <% else %>
 <% end %>
+
+

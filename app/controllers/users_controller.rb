@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @item_all_to_array = Item.all.to_a
   end
 
   def new
@@ -13,8 +14,9 @@ class UsersController < ApplicationController
 
   # スクレイプアクション
   def scrape
+    Item.delete_all
     # スクレイピング先のURLをここに入れる
-    url = URI.encode "https://www.mercari.com/jp/search/?keyword=" + "#{params[:xxx]}"
+    url = URI.encode "#{params[:xxx]}"
 
     charset = nil
     html = open(url) do |f|
@@ -71,7 +73,7 @@ class UsersController < ApplicationController
         @item_type = node.css('td')[3].children.inner_text
 
         # イメージの数
-        node = doc2.xpath('//figure[@class="items-box-photo"]')
+        node = doc2.xpath('//section[@class="item-box-container l-single-container"]')
         @item_image_1 = node.css('img')[0].attribute('data-src').inner_text if node.css('img')[0].present?
         @item_image_2 = node.css('img')[1].attribute('data-src').inner_text if node.css('img')[1].present?
         @item_image_3 = node.css('img')[2].attribute('data-src').inner_text if node.css('img')[2].present?
@@ -85,7 +87,7 @@ class UsersController < ApplicationController
 
         # カテゴリー
         node = doc2.xpath('//table[@class="item-detail-table"]')
-        @item_category = node.css('td')[1].children.children.inner_text.gsub("\n", ">").gsub(" ","").gsub(">>", ">")
+        @item_category = node.css('td')[1].children.children.inner_text.gsub("\n", ">").gsub(" ","").gsub(">>", ">").chop
         # ブランド
         @item_brand = node.css('td')[2].children.inner_text.gsub("\n","").gsub(" ","") if node.css('td')[2].present?
         # 送料について
@@ -145,7 +147,7 @@ class UsersController < ApplicationController
     end
     Item.import items
     flash[:success] = '商品のスクレイピングに成功しました。'
-    redirect_to root_url
+    redirect_to user_url
   end
 
   def how_to_use
@@ -161,6 +163,10 @@ class UsersController < ApplicationController
     else
       render :new
     end
+  end
+
+  def csv_export
+    send_data render_to_string, filename: "item_products.csv", type: :csv
   end
 
   private

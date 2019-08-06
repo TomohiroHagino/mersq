@@ -23,6 +23,27 @@ textarea {
   margin-bottom: 10px;
 }
 
+.item-accordion {
+  padding: 0px !important;
+}
+
+.scroll {
+  overflow-y: auto;
+  height: 100px;
+}
+
+.my-table td {
+  border-top: solid 1px black !important;
+  border-bottom: solid 1px black !important;
+  border-left: solid 1px black !important;
+  border-right: solid 1px black !important;
+}
+
+table {
+table-layout: fixed;
+width: 100%;
+}
+
 /* typography */
 
 h1, h2, h3, h4, h5, h6 {
@@ -54,6 +75,15 @@ p {
 
 .header-color {
   background-color: tomato;
+  &:focus {
+    background-color: tomato;
+  }
+  &:hover {
+    background-color: tomato;
+  }
+  &:active {
+    background-color: tomato;
+  }
 }
 
 #logo {
@@ -77,14 +107,34 @@ p {
   letter-spacing: -1px;
   font-weight: bold;
   &:focus {
-    background-color: pink;
-  }
-  &:active {
-    background-color: lightsalmon;
+    background-color: coral;
   }
   &:hover {
     background-color: coral;
   }
+  &:active {
+    background-color: coral;
+  }
+}
+
+.dropdown-menu {
+  color: white;
+  letter-spacing: -1px;
+  font-weight: bold;
+  background-color: coral;
+  &:focus {
+    background-color: coral;
+  }
+  &:hover {
+    background-color: coral;
+  }
+  &:active {
+    background-color: coral;
+  }
+}
+
+.dropdown-toggle {
+  background-color: coral;
 }
 
 /* debug */
