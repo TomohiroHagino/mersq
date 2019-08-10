@@ -1,6 +1,8 @@
 <% if @user ||= current_user %>
 <% provide(:title, @user.name) %>
   <h1>スクレイピング１</h1>
+  f
+  a
     <div class="center">
     <b><font color="#FF0000">徒然なるままにWEBバージョン完成！・・・あともうちょっとで</font></b>
     </div>
@@ -10,7 +12,6 @@
       対象URL
     </dt>
     <dd>
-    d
     <%= search_item.text_field :xxx, class: "form-control" %>
     <%= search_item.hidden_field :id, :value => current_user %>
     <%= search_item.submit "抽出", class: "btn btn-success form_date_select" %>
