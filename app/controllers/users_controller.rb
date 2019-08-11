@@ -150,7 +150,7 @@ class UsersController < ApplicationController
   end
 
   def csv_export
-    send_data render_to_string, filename: "item_products.csv", type: :csv
+    send_data render_to_string, filename: "#{Time.now.strftime("%Y_%m%d_%H%M%S")}_item_products.csv", type: :csv
   end
 
   private
