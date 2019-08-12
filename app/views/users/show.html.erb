@@ -42,7 +42,7 @@
     </tr>
   </table>
   
-  <% @item_all_to_array.each do | scraping_item_list | %>
+  <% @item_all_to_array.each do | scraping_item | %>
   <table class="table table-hover my-table table-condensed user-table">
     <colgroup>
       <col style="width: 4%">
@@ -54,24 +54,24 @@
     <tr class="active">
       <td>
       <%= f.fields_for "items" do |fo|%>
-        <%= fo.fields_for "#{scraping_item_list.id}" do |item|%>
+        <%= fo.fields_for "#{scraping_item.id}" do |item|%>
         <%= item.check_box :send_delete_sign%>  
         <% end %>
       <% end %>
       </td>
-      <td><a href="<%=scraping_item_list.item_image1%>"><img src="<%=scraping_item_list.item_image1%>" width="50" height="50" target="_blank"/></a></td>
-      <td><a href="<%=scraping_item_list.item_url%>" target="_blank"><%= scraping_item_list.item_title %></a></td>
-      <td><div class="scroll"><%= scraping_item_list.item_description %></div></td>
-      <td class="item-done clickable" data-toggle="collapse" data-target="#accordion<%= scraping_item_list.id %>"><%= scraping_item_list.item_price %></td>
+      <td><a href="<%=scraping_item.item_image1%>"><img src="<%=scraping_item.item_image1%>" width="50" height="50" target="_blank"/></a></td>
+      <td><a href="<%=scraping_item.item_url%>" target="_blank"><%= scraping_item.item_title %></a></td>
+      <td><div class="scroll"><%= scraping_item.item_description %></div></td>
+      <td class="item-done clickable" data-toggle="collapse" data-target="#accordion<%= scraping_item.id %>"><%= scraping_item.item_price %></td>
     </tr>
     <tr>
         <!-- 全角スペースで位置調整してある -->
         <td colspan="5" class="item-accordion">
-          <div id="accordion<%= scraping_item_list.id %>" class="center collapse">
+          <div id="accordion<%= scraping_item.id %>" class="center collapse">
             <div class="center col-xs-1 col-md-1 col-lg-1"></div>
-            <div class="center col-xs-3 col-md-3 col-lg-3"><%= scraping_item_list.item_type %></div>
-            <div class="center col-xs-6 col-md-6 col-lg-6"><%= scraping_item_list.item_days_to_ship %></div>
-            <div class="center col-xs-2 col-md-2 col-lg-2">　送料: <%= scraping_item_list.item_postage %></div>
+            <div class="center col-xs-3 col-md-3 col-lg-3"><%= scraping_item.item_type %></div>
+            <div class="center col-xs-6 col-md-6 col-lg-6"><%= scraping_item.item_days_to_ship %></div>
+            <div class="center col-xs-2 col-md-2 col-lg-2">　送料: <%= scraping_item.item_postage %></div>
           </div>
         </td>
     </tr>

@@ -7,6 +7,7 @@ gem 'rails', '~> 5.2.3'
 gem 'puma', '~> 3.11'
 # スクレイピングに必要になる
 gem 'nokogiri'
+gem 'mechanize'
 # API利用
 gem 'google-api-client', '<0.9'
 gem 'trollop', '~> 2.1'

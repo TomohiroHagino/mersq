@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  require 'mechanize'
   require 'csv'
 
   def show
@@ -13,6 +12,8 @@ class UsersController < ApplicationController
 
   # スクレイプアクション
   def scrape
+    require 'mechanize'
+
     Item.delete_all
     agent = Mechanize.new
     page = agent.get("#{params[:xxx]}")
@@ -136,6 +137,63 @@ class UsersController < ApplicationController
 
   def how_to_use
     @user = User.find(params[:id])
+    @youtube_all_to_array = Youtube.all.to_a
+  end
+
+  def youtube_scrape
+    require 'uri'
+    require 'net/http'
+    require "json"
+    Youtube.delete_all
+    
+    next_page_token = nil
+    keyword = 'ロマサガ'
+    
+    # APIキーは環境変数で設定
+    target = URI.encode_www_form({
+              part: "snippet",
+              channelId: "UC2-hRIDWzqAnTjOxdLDmhCA",
+              maxResults: 10,
+              pageToken: next_page_token,
+              q: keyword,
+              type: "video",
+              key: "AIzaSyC2P9N_eZhLP0CDYq0obWBB5zWxPSL3Tg8"
+            })
+    
+    uri = URI.parse("https://www.googleapis.com/youtube/v3/search?#{target}")
+    puts uri
+    response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+      http.get(uri.request_uri)
+    end
+    
+    # 例外処理は省略
+    @result = JSON.parse(response.body)
+
+    # 配列を作るための準備
+    @youtube_no ||= 0
+    # アイテムナンバーの配列を作る準備
+    @youtube_number_list = [@youtube_no]
+    hash = Hash.new { |h,k| h[k] = {} }
+
+    # itemsを参照すれば動画オブジェクトを取得できる
+    @result["items"].each do |item|
+      @youtube_no += 1
+      hash[@youtube_no][:title] = item["snippet"]["title"]
+      hash[@youtube_no][:video_url] = item["id"]["videoId"]
+      @youtube_number_list.push("#{@youtube_no}")
+    end
+    # 配列先頭余分の0を消す
+    @youtube_number_list.delete(0)
+    youtubes = []
+
+    @youtube_number_list.each do |youtube_number|
+      youtubes << Youtube.new(:title => hash[youtube_number.to_i][:title],
+                              :video_url => "https://www.youtube.com/watch?v=#{hash[youtube_number.to_i][:video_url]}"
+                              )
+    end
+    Youtube.import youtubes
+    flash[:success] = 'うまくいったんじゃね'
+    redirect_to users_how_to_use_url
   end
 
   #ユーザー新規登録

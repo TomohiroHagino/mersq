@@ -20,4 +20,6 @@ Rails.application.routes.draw do
   post 'users/:id/',     to: 'items#delete', as: :item_delete
   # ヘッダーメニュー
   get 'users/:id/how_to_use',     to: 'users#how_to_use', as: :users_how_to_use
+  # Youtubeスクレイピング
+  get 'users/:id/youtube_scrape',     to: 'users#youtube_scrape', as: :youtube_scrape 
 end
