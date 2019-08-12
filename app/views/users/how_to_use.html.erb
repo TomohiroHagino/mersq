@@ -1,12 +1,14 @@
 <% provide(:title, @user.name) %>
 <div>
   <h1>メルスクの使い方</h1>
+    <div class="center">
+    <b><font color="#FF0000">指定したID内の動画を抽出してきます</font></b>
+    </div>
 </div>
   <div class = "container">
   　<div class="col-xs-3 col-md-3 col-lg-3">
     <%= form_with url: youtube_scrape_path, method: :get, local: true do | search_item | %>
     <%= search_item.text_field :keyword, class: "form-control" %>
-    <%= search_item.hidden_field :id, :value => current_user %>
     <%= search_item.submit "抽出", class: "btn btn-success form_date_select" %>
     <% end %>
     </div>
@@ -18,7 +20,8 @@
     <% @youtube_all_to_array.each do |youtube|%>
     <tr>
       <td>
-      <a href="<%= youtube.video_url %>"><%= youtube.title %></a>
+      <%= youtube.title %><br>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= youtube.video_url %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </td>
     </tr>
     <% end %>

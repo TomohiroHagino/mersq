@@ -145,27 +145,26 @@ class UsersController < ApplicationController
     require 'net/http'
     require "json"
     Youtube.delete_all
-    
+
     next_page_token = nil
-    keyword = 'ロマサガ'
-    
+
     # APIキーは環境変数で設定
     target = URI.encode_www_form({
               part: "snippet",
               channelId: "UC2-hRIDWzqAnTjOxdLDmhCA",
               maxResults: 10,
               pageToken: next_page_token,
-              q: keyword,
+              q: "#{params[:keyword]}",
               type: "video",
               key: "AIzaSyC2P9N_eZhLP0CDYq0obWBB5zWxPSL3Tg8"
             })
-    
+
     uri = URI.parse("https://www.googleapis.com/youtube/v3/search?#{target}")
     puts uri
     response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
       http.get(uri.request_uri)
     end
-    
+
     # 例外処理は省略
     @result = JSON.parse(response.body)
 
@@ -188,11 +187,11 @@ class UsersController < ApplicationController
 
     @youtube_number_list.each do |youtube_number|
       youtubes << Youtube.new(:title => hash[youtube_number.to_i][:title],
-                              :video_url => "https://www.youtube.com/watch?v=#{hash[youtube_number.to_i][:video_url]}"
+                              :video_url => hash[youtube_number.to_i][:video_url]
                               )
     end
     Youtube.import youtubes
-    flash[:success] = 'うまくいったんじゃね'
+    flash[:success] = 'youtubeスクレイピングに成功しました！'
     redirect_to users_how_to_use_url
   end
 
