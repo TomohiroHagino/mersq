@@ -13,10 +13,13 @@ class UsersController < ApplicationController
   # スクレイプアクション
   def scrape
     require 'mechanize'
-
+    if params[:keyword] == ""
+      flash[:danger] = 'URLを入力してください。'
+      redirect_to user_url
+    else
     Item.delete_all
     agent = Mechanize.new
-    page = agent.get("#{params[:xxx]}")
+    page = agent.get("#{params[:keyword]}")
 
     # 配列を作るための準備
     @item_no ||= 0
@@ -133,6 +136,7 @@ class UsersController < ApplicationController
     Item.import items
     flash[:success] = '商品のスクレイピングに成功しました。'
     redirect_to user_url
+    end
   end
 
   def how_to_use
@@ -144,55 +148,60 @@ class UsersController < ApplicationController
     require 'uri'
     require 'net/http'
     require "json"
-    Youtube.delete_all
 
-    next_page_token = nil
+    if params[:keyword] == ""
+      flash[:danger] = 'キーワードを入力してください。'
+      redirect_to users_how_to_use_url
+    else
+      Youtube.delete_all
+      next_page_token = nil
 
-    # APIキーは環境変数で設定
-    target = URI.encode_www_form({
-              part: "snippet",
-              channelId: "UC2-hRIDWzqAnTjOxdLDmhCA",
-              maxResults: 10,
-              pageToken: next_page_token,
-              q: "#{params[:keyword]}",
-              type: "video",
-              key: "AIzaSyC2P9N_eZhLP0CDYq0obWBB5zWxPSL3Tg8"
-            })
+      # APIキーは環境変数で設定
+      target = URI.encode_www_form({
+                part: "snippet",
+                channelId: "UC2-hRIDWzqAnTjOxdLDmhCA",
+                maxResults: 10,
+                pageToken: next_page_token,
+                q: "#{params[:keyword]}",
+                type: "video",
+                key: "AIzaSyC2P9N_eZhLP0CDYq0obWBB5zWxPSL3Tg8"
+              })
 
-    uri = URI.parse("https://www.googleapis.com/youtube/v3/search?#{target}")
-    puts uri
-    response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
-      http.get(uri.request_uri)
+      uri = URI.parse("https://www.googleapis.com/youtube/v3/search?#{target}")
+      puts uri
+        response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+          http.get(uri.request_uri)
+        end
+
+      # 例外処理は省略
+      @result = JSON.parse(response.body)
+
+      # 配列を作るための準備
+      @youtube_no ||= 0
+      # アイテムナンバーの配列を作る準備
+      @youtube_number_list = [@youtube_no]
+      hash = Hash.new { |h,k| h[k] = {} }
+
+        # itemsを参照すれば動画オブジェクトを取得できる
+        @result["items"].each do |item|
+          @youtube_no += 1
+          hash[@youtube_no][:title] = item["snippet"]["title"]
+          hash[@youtube_no][:video_url] = item["id"]["videoId"]
+          @youtube_number_list.push("#{@youtube_no}")
+        end
+      # 配列先頭余分の0を消す
+      @youtube_number_list.delete(0)
+      youtubes = []
+
+        @youtube_number_list.each do |youtube_number|
+          youtubes << Youtube.new(:title => hash[youtube_number.to_i][:title],
+                                :video_url => hash[youtube_number.to_i][:video_url]
+                                )
+        end
+      Youtube.import youtubes
+      flash[:success] = 'youtubeスクレイピングに成功しました！'
+      redirect_to users_how_to_use_url
     end
-
-    # 例外処理は省略
-    @result = JSON.parse(response.body)
-
-    # 配列を作るための準備
-    @youtube_no ||= 0
-    # アイテムナンバーの配列を作る準備
-    @youtube_number_list = [@youtube_no]
-    hash = Hash.new { |h,k| h[k] = {} }
-
-    # itemsを参照すれば動画オブジェクトを取得できる
-    @result["items"].each do |item|
-      @youtube_no += 1
-      hash[@youtube_no][:title] = item["snippet"]["title"]
-      hash[@youtube_no][:video_url] = item["id"]["videoId"]
-      @youtube_number_list.push("#{@youtube_no}")
-    end
-    # 配列先頭余分の0を消す
-    @youtube_number_list.delete(0)
-    youtubes = []
-
-    @youtube_number_list.each do |youtube_number|
-      youtubes << Youtube.new(:title => hash[youtube_number.to_i][:title],
-                              :video_url => hash[youtube_number.to_i][:video_url]
-                              )
-    end
-    Youtube.import youtubes
-    flash[:success] = 'youtubeスクレイピングに成功しました！'
-    redirect_to users_how_to_use_url
   end
 
   #ユーザー新規登録
