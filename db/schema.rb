@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_28_145409) do
+ActiveRecord::Schema.define(version: 2019_08_23_050528) do
 
   create_table "items", force: :cascade do |t|
     t.string "item_title"
@@ -44,7 +44,17 @@ ActiveRecord::Schema.define(version: 2019_07_28_145409) do
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "remember_digest"
+    t.string "youtube_api"
+    t.string "search_channel_id"
+    t.boolean "admin", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "youtubes", force: :cascade do |t|
+    t.string "video_url"
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

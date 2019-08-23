@@ -1,24 +1,27 @@
-<% provide(:title, @user.name) %>
-<div>
-  <h1>ユーザーズインデックス</h1>
-    <tr>
-    <%= form_with(url:"#_path") do | search_item | %>
-    <%= search_item.text_field :id, class: "col-lg-6 col-md-8" %>
-    <%= search_item.submit "抽出", class: "btn btn-primary form_date_select" %>
+<% provide(:title, 'All Users') %>
+<h1>ユーザー一覧</h1>
+
+<div class="col-md-10 col-md-offset-1">
+  <%= will_paginate %>
+  <table class="table table-condensed table-hover" id="table-users">
+    <thead>
+      <tr>
+        <th><%= User.human_attribute_name :name %></th>
+      </tr>
+    </thead>
+
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.name, user %></td>
+        <td>
+          <% if current_user.admin? && !current_user?(user) %>
+            <%= link_to "削除", user, method: :delete,
+                data: { confirm: "削除してよろしいですか？" },
+                class: "btn btn-danger" %>
+          <% end %>
+        </td>
+      </tr>
     <% end %>
-    </tr>
-</div>
-<div>
-<%= button_to "CSVインポート", {controller: 'users', action: 'index'}, {method: :get, class: "btn btn-primary"} %>
-</div>
-<div>
-  <table class="table table-bordered table-condensed user-table">
-    <tr>
-      <td>イメージ</td>
-      <td>タイトル</td>
-      <td>URL</td>
-      <td>出品額</td>
-      <td>ほげほげ</td>
-    </tr>
   </table>
+  <%= will_paginate %>
 </div>

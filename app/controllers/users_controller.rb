@@ -1,5 +1,14 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:show, :edit, :update]
+  before_action :logged_in_user, only: [:index, :show, :edit, :update]
+  before_action :correct_user, only: [:edit, :update]
+  before_action :admin_user, only: :destroy
+
   require 'csv'
+
+  def index
+    @users = User.paginate(page: params[:page])
+  end
 
   def show
     @user = User.find(params[:id])
@@ -12,12 +21,16 @@ class UsersController < ApplicationController
 
   # スクレイプアクション
   def scrape
+    unless params[:keyword].include?("https://www.mercari.com/jp/search/?")
+      flash[:danger] = '入力するURLは特定の条件を満たす必要があります。'
+    return redirect_to user_path
+    end
     require 'mechanize'
 
     Item.delete_all
     agent = Mechanize.new
-    page = agent.get("#{params[:xxx]}")
-
+    page = agent.get("#{params[:keyword]}")
+       
     # 配列を作るための準備
     @item_no ||= 0
     # アイテムナンバーの配列を作る準備
@@ -144,19 +157,26 @@ class UsersController < ApplicationController
     require 'uri'
     require 'net/http'
     require "json"
-    Youtube.delete_all
 
+    if params[:keyword].blank?
+      flash[:danger] = '空白では検索できません。'
+      return redirect_to youtube_scrape_path
+    end
+
+    Youtube.delete_all
     next_page_token = nil
 
+    @user = User.find_by(params[:id])
+    
     # APIキーは環境変数で設定
     target = URI.encode_www_form({
               part: "snippet",
-              channelId: "UC2-hRIDWzqAnTjOxdLDmhCA",
+              channelId: @user.search_channel_id,
               maxResults: 10,
               pageToken: next_page_token,
               q: "#{params[:keyword]}",
               type: "video",
-              key: "AIzaSyC2P9N_eZhLP0CDYq0obWBB5zWxPSL3Tg8"
+              key: @user.youtube_api
             })
 
     uri = URI.parse("https://www.googleapis.com/youtube/v3/search?#{target}")
@@ -206,13 +226,57 @@ class UsersController < ApplicationController
     end
   end
 
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
+      flash[:success] = "ユーザー情報を更新しました。"
+      redirect_to @user
+    else
+      render :edit      
+    end
+  end
+
+  def destroy
+    @user.destroy
+    flash[:success] = "#{@user.name}のデータを削除しました。"
+    redirect_to users_url
+  end
+
   def csv_export
     send_data render_to_string, filename: "#{Time.now.strftime("%Y_%m%d_%H%M%S")}_item_products.csv", type: :csv
+  end
+
+  def edit
+    @user = User.find(params[:id])
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :youtube_api, :search_channel_id)
   end
+
+    # paramsハッシュからユーザーを取得します。
+    def set_user
+      @user = User.find(params[:id])
+    end
+
+    # ログイン済みのユーザーか確認します。
+    def logged_in_user
+      unless logged_in?
+        store_location
+        flash[:danger] = "ログインしてください。"
+        redirect_to login_url
+      end
+    end
+
+    # アクセスしたユーザーが現在ログインしているユーザーか確認します。
+    def correct_user
+      redirect_to(root_url) unless current_user?(@user)
+    end
+
+    # システム管理権限所有かどうか判定します。
+    def admin_user
+      redirect_to root_url unless current_user.admin?
+    end
 end

@@ -10,15 +10,14 @@ gem 'nokogiri'
 gem 'mechanize'
 # API利用
 gem 'google-api-client', '<0.9'
-gem 'trollop', '~> 2.1'
+gem 'optimist'
 # BULK INSERT
 gem 'activerecord-import'
-# bootstrapが使えるようになる
-gem 'bootstrap-sass', '3.3.7'
 # SCSSが使えるようになる
 gem 'sass-rails', '~> 5.0'
 # UJavaScriptのコードの改行や空白を削除して軽量化します。
 gem 'uglifier', '>= 1.3.0'
+
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 gem 'jquery-rails'
@@ -32,6 +31,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModelのhas_seccure_password
 gem 'bcrypt', '~> 3.1.7'
+gem 'faker'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
@@ -42,7 +42,7 @@ gem 'bcrypt', '~> 3.1.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 #ページネーションが使えるようになる。
-gem 'will_paginate',           '3.1.6'
+gem 'will_paginate',           '3.1.7'
 #上記のページネーションにbootstrapを適用する
 gem 'bootstrap-will_paginate', '1.0.0'
 #bootstrapが使えるようになる。
