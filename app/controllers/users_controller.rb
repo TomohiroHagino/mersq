@@ -158,15 +158,18 @@ class UsersController < ApplicationController
     require 'net/http'
     require "json"
 
-    if params[:keyword].blank?
+    @user = User.find(params[:id])
+    if @user.youtube_api.blank?
+      debugger
+      flash[:danger] = 'このページを利用するためにはユーザーアカウントにAPIの値を設定する必要があります。'
+      return redirect_to users_how_to_use_url
+    elsif params[:keyword].blank?
       flash[:danger] = '空白では検索できません。'
-      return redirect_to youtube_scrape_path
+      return redirect_to users_how_to_use_url
     end
 
     Youtube.delete_all
     next_page_token = nil
-
-    @user = User.find_by(params[:id])
     
     # APIキーは環境変数で設定
     target = URI.encode_www_form({
@@ -187,6 +190,10 @@ class UsersController < ApplicationController
 
     # 例外処理は省略
     @result = JSON.parse(response.body)
+    if @result.nil? 
+      flash[:danger] = '検索がヒットしませんでした。APIおよびチャンネルIDが正しいか確認してください。'
+      return redirect_to youtube_scrape_path
+    end
 
     # 配列を作るための準備
     @youtube_no ||= 0
@@ -219,8 +226,12 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:success] = '新規作成に成功しました。'
-      redirect_to @user
+      UserMailer.send_activation_email
+      flash[:info] = "管理者に承認申請のメールを送信しました。管理者に連絡をして承認をお待ちください。"
+      redirect_to root_url
+    # if @user.save
+    #   flash[:success] = '新規作成に成功しました。'
+    #   redirect_to @user
     else
       render :new
     end

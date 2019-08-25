@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   # Restful
   resources :users
+  resources :account_activations, only: [:edit]
 
   #スクレイピング
   get 'users/:id/scrape',     to: 'users#scrape', as: :scrape

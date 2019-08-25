@@ -1,0 +1,8 @@
+こんにちは、 管理者様,
+
+ユーザーからの承認要請がありました。
+ユーザー名: <%= @user.name%>
+メールアドレス: <%= @user.email%>
+
+このリンクをクリックすると、要請が承認されます。
+<%= edit_account_activation_url(@user.activation_token, email: @user.email) %>

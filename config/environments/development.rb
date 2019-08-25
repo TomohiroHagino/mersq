@@ -27,11 +27,17 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  # Store uploaded files on the local file system (see config/storage.yml for options)
+  # ローカルファイルシステム上のストアアップロードファイルは(config/strage.yml for options)
 #  config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  # メールが送信出来ないときは知らない。
+  # 送信メソッドは:test
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :test
+  # hostの部分は自身のdevelopment環境に合わせて変更する。
+  host = 'localhost:3000'                     # ローカル環境
+  config.action_mailer.default_url_options = { host: host, protocol: 'http' }
 
   config.action_mailer.perform_caching = false
 

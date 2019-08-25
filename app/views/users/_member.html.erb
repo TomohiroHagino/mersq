@@ -1,0 +1,27 @@
+    <thead>
+      <tr>
+        <th><%= User.human_attribute_name :name %></th>
+      </tr>
+    </thead>
+    <% @users.each do |user| %>
+      <tr>
+        <td colspan="3"><%= link_to user.name, user %></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <% if current_user.admin? && !current_user?(user) %>
+            <%= link_to "削除", user, method: :delete,
+                data: { confirm: "削除してよろしいですか？" },
+                class: "btn btn-danger" %>
+           <% end %>
+        </td>
+        <td>
+          <% if current_user.admin? && !current_user?(user) %>
+            <%= link_to "編集こうじちゅ", user, method: :delete,
+                data: { confirm: "削除してよろしいですか？" },
+                class: "btn btn-primary" %>
+           <% end %>
+        </td>
+      </tr>
+    <% end %>

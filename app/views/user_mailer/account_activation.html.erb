@@ -1,0 +1,10 @@
+<h1>ユーザーからの承認要請</h1>
+
+<p>こんにちは、 管理者様。</p>
+
+<p>ユーザーからの承認要請がありました。</p>
+<p>ユーザー名: <%= @user.name%></p>
+<p>メールアドレス: <%= @user.email%></p>
+
+<p>このリンクをクリックすると、要請が承認されます。</p>
+<%= edit_account_activation_url(@user.activation_token, email: @user.email) %>
