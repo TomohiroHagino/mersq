@@ -1,12 +1,13 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
   before_action :logged_in_user, only: [:index, :show, :edit, :update]
-  before_action :correct_user, only: [:edit, :update]
+  before_action :correct_user, only: [:index, :edit, :update]
   before_action :admin_user, only: :destroy
 
   require 'csv'
 
   def index
+    @user = current_user
     @users = User.paginate(page: params[:page])
   end
 
@@ -30,6 +31,7 @@ class UsersController < ApplicationController
     Item.delete_all
     agent = Mechanize.new
     page = agent.get("#{params[:keyword]}")
+    user = User.find(params[:id])
        
     # 配列を作るための準備
     @item_no ||= 0
@@ -121,7 +123,7 @@ class UsersController < ApplicationController
       # カラムごとの配列を作って、bulk insert
       items = []
       @item_number_list.each do |item_number|
-        items << Item.new(:item_url => hash[item_number]["item_url"],
+        items << user.items.new(:item_url => hash[item_number]["item_url"],
                         :item_good => hash[item_number]["item_good"],
                         :item_type => hash[item_number]["item_type"],
                         :item_title => hash[item_number]["item_title"],
@@ -143,7 +145,7 @@ class UsersController < ApplicationController
                         :item_days_to_ship => hash[item_number]["item_days_to_ship"]
                         )
       end
-    Item.import items
+    user.items.import items
     flash[:success] = '商品のスクレイピングに成功しました。'
     redirect_to user_url
   end
@@ -158,15 +160,20 @@ class UsersController < ApplicationController
     require 'net/http'
     require "json"
 
+    @user = User.find_by(params[:id])
+
     if params[:keyword].blank?
       flash[:danger] = '空白では検索できません。'
-      return redirect_to youtube_scrape_path
+      return redirect_to users_how_to_use_url
+    end
+
+    unless @user.search_channel_id && @user.youtube_api
+      flash[:danger] = 'この機能を利用するにはAPIキーとチャンネルIDを設定する必要があります。'
+      return redirect_to users_how_to_use_url
     end
 
     Youtube.delete_all
     next_page_token = nil
-
-    @user = User.find_by(params[:id])
     
     # APIキーは環境変数で設定
     target = URI.encode_www_form({
@@ -187,6 +194,11 @@ class UsersController < ApplicationController
 
     # 例外処理は省略
     @result = JSON.parse(response.body)
+
+    if @result["items"].nil?
+      flash[:danger] = 'キーワード検索がヒットしませんでした。APIキーもしくはチャンネルIDが間違っている可能性があります。'
+      return redirect_to users_how_to_use_url
+    end
 
     # 配列を作るための準備
     @youtube_no ||= 0
@@ -247,7 +259,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
   end
 
   private
@@ -270,9 +281,9 @@ class UsersController < ApplicationController
       end
     end
 
-    # アクセスしたユーザーが現在ログインしているユーザーか確認します。
+    # アクセスしたユーザーが現在ログインしているユーザーか確認します。管理者の場合はアクセス可能
     def correct_user
-      redirect_to(root_url) unless current_user?(@user)
+      redirect_to(root_url) unless current_user?(@user) || current_user.admin?
     end
 
     # システム管理権限所有かどうか判定します。

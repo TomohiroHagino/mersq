@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2019_08_23_050528) do
     t.string "item_type"
     t.string "item_category"
     t.string "item_brand"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "item_image1"
@@ -35,6 +36,7 @@ ActiveRecord::Schema.define(version: 2019_08_23_050528) do
     t.string "item_postage"
     t.string "item_description"
     t.string "item_days_to_ship"
+    t.index ["user_id"], name: "index_items_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

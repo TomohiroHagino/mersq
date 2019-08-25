@@ -12,7 +12,9 @@
 
     <% @users.each do |user| %>
       <tr>
-        <td><%= link_to user.name, user %></td>
+        <td colspan="2"><%= link_to user.name, user %></td>
+        <td></td>
+        <td></td>
         <td>
           <% if current_user.admin? && !current_user?(user) %>
             <%= link_to "削除", user, method: :delete,

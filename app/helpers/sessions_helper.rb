@@ -19,6 +19,7 @@ module SessionsHelper
 
   # セッションと@current_userを破棄します
   def log_out
+    forget(current_user)
     session.delete(:user_id)
     @current_user = nil
   end

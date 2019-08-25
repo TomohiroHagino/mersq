@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   #「remember_token」という仮想の属性を作成します。
   attr_accessor :remember_token
+  has_many :items
+  
   # befoore_saveメソッド 大文字の混ざったemailが登録されたら小文字に修正。
   before_save { self.email = email.downcase }
   validates :name, presence: true, length: { maximum: 50 }
@@ -11,6 +13,8 @@ class User < ApplicationRecord
                     uniqueness: true
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :youtube_api, on: :edit, length: { is: 39 }, allow_nil: true
+  validates :search_channel_id, on: :edit, length: { is: 24 }, allow_nil: true
 
   # 渡された文字列のハッシュ値を返します。
   def User.digest(string)

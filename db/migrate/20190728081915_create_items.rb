@@ -8,6 +8,7 @@ class CreateItems < ActiveRecord::Migration[5.2]
       t.string :item_type
       t.string :item_category
       t.string :item_brand
+      t.references :user
 
       t.timestamps
     end
