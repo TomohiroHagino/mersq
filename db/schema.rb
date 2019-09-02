@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_23_050528) do
+ActiveRecord::Schema.define(version: 2019_09_02_072015) do
 
   create_table "items", force: :cascade do |t|
     t.string "item_title"
@@ -57,6 +57,8 @@ ActiveRecord::Schema.define(version: 2019_08_23_050528) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_youtubes_on_user_id"
   end
 
 end

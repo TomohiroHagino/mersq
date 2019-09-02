@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
-  before_action :logged_in_user, only: [:index, :show, :edit, :update]
+  before_action :logged_in_user, only: [:show, :edit, :update]
   before_action :correct_user, only: [:index, :edit, :update]
   before_action :admin_user, only: :destroy
 
@@ -27,12 +27,12 @@ class UsersController < ApplicationController
     return redirect_to user_path
     end
     require 'mechanize'
+    user = User.find(params[:id])
+    @user.items.delete_all
 
-    Item.delete_all
     agent = Mechanize.new
     page = agent.get("#{params[:keyword]}")
-    user = User.find(params[:id])
-       
+
     # 配列を作るための準備
     @item_no ||= 0
     # アイテムナンバーの配列を作る準備
@@ -161,6 +161,7 @@ class UsersController < ApplicationController
     require "json"
 
     @user = User.find_by(params[:id])
+    youtube_of_user = Youtube.where(user_id: params[:id])
 
     if params[:keyword].blank?
       flash[:danger] = '空白では検索できません。'
@@ -172,7 +173,7 @@ class UsersController < ApplicationController
       return redirect_to users_how_to_use_url
     end
 
-    Youtube.delete_all
+    @youtube_of_user.delete_all
     next_page_token = nil
     
     # APIキーは環境変数で設定
@@ -218,11 +219,11 @@ class UsersController < ApplicationController
     youtubes = []
 
     @youtube_number_list.each do |youtube_number|
-      youtubes << Youtube.new(:title => hash[youtube_number.to_i][:title],
+      youtubes << @youtube_of_user.new(:title => hash[youtube_number.to_i][:title],
                               :video_url => hash[youtube_number.to_i][:video_url]
                               )
     end
-    Youtube.import youtubes
+    youtube_of_user.import youtubes
     flash[:success] = 'youtubeスクレイピングに成功しました！'
     redirect_to users_how_to_use_url
   end
