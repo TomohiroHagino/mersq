@@ -20,4 +20,6 @@ Rails.application.routes.draw do
   get 'users/:id/how_to_use',     to: 'users#how_to_use', as: :users_how_to_use
   # Youtubeスクレイピング
   get 'users/:id/youtube_scrape',     to: 'users#youtube_scrape', as: :youtube_scrape 
+  # ご挨拶ページ
+  get 'users/:id/greeting',      to: 'users#greeting', as: :greeting
 end

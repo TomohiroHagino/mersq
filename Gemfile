@@ -5,6 +5,8 @@ ruby '2.6.3'
 gem 'rails', '~> 5.2.3'
 # appサーバーpumaが使えるようになる。
 gem 'puma', '~> 3.11'
+#普通は設定できないエラーメッセージを日本語化できる
+gem 'i18n-js',                 '3.0.11'
 # スクレイピングに必要になる
 gem 'nokogiri'
 gem 'mechanize'

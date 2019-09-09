@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
-  before_action :logged_in_user, only: [:show, :edit, :update]
+  before_action :logged_in_user, only: [:show, :edit, :update, :greeting]
   before_action :correct_user, only: [:index, :edit, :update]
   before_action :admin_user, only: :destroy
 
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @item_all_to_array = Item.all.to_a
+    @item_all_to_array = Item.where(user_id:params[:id]).to_a
   end
 
   def new
@@ -152,15 +152,14 @@ class UsersController < ApplicationController
 
   def how_to_use
     @user = User.find(params[:id])
-    @youtube_all_to_array = Youtube.all.to_a
+    @youtube_all_to_array = Youtube.where(user_id: params[:id]).to_a
   end
 
   def youtube_scrape
     require 'uri'
     require 'net/http'
     require "json"
-
-    @user = User.find_by(params[:id])
+    @user = User.find_by(id: params[:id])
     youtube_of_user = Youtube.where(user_id: params[:id])
 
     if params[:keyword].blank?
@@ -292,5 +291,9 @@ class UsersController < ApplicationController
     # システム管理権限所有かどうか判定します。
     def admin_user
       redirect_to root_url unless current_user.admin?
+    end
+    
+    def greeting
+      @user = User.find(id: params[:id])
     end
 end

@@ -9,7 +9,11 @@
                                'data-turbolinks-track': 'reload' %>
     <%= render 'layouts/shim' %>
   </head>
+  <% if request.url == "http://0.0.0.0:3000/" %>
+  <body style="background: #f55142;">
+  <% else %>
   <body>
+  <%end%>    
     <%= render 'layouts/header' %>
     <div class="container">
       <% flash.each do |message_type, msg| %>
