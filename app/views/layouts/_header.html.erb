@@ -3,8 +3,10 @@
   <div class="container">
     <%# ログイン中はタイトルボタンでユーザーページに繊維する。 %>
     <% if logged_in? %>
+      <%= image_tag 'mersq.png', :size =>'50x50', id: "logoimage" %>
       <%= link_to "メルスク", user_path(@user), id: "logo" %>
     <% else %>
+      <%= image_tag 'mersq.png', :size =>'50x50', id: "logoimage" %>
       <%= link_to "メルスク", root_path, id: "logo" %>
     <% end %>
       <ul class="nav navbar-nav navbar-right">

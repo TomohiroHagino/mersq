@@ -173,7 +173,7 @@ class UsersController < ApplicationController
       return redirect_to users_how_to_use_url
     end
 
-    @youtube_of_user.delete_all
+    youtube_of_user.delete_all if youtube_of_user.present?
     next_page_token = nil
     
     # APIキーは環境変数で設定
@@ -219,11 +219,12 @@ class UsersController < ApplicationController
     youtubes = []
 
     @youtube_number_list.each do |youtube_number|
-      youtubes << @youtube_of_user.new(:title => hash[youtube_number.to_i][:title],
+      youtubes << Youtube.new(:user_id => params[:id],
+                              :title => hash[youtube_number.to_i][:title],
                               :video_url => hash[youtube_number.to_i][:video_url]
                               )
     end
-    youtube_of_user.import youtubes
+    Youtube.import youtubes
     flash[:success] = 'youtubeスクレイピングに成功しました！'
     redirect_to users_how_to_use_url
   end

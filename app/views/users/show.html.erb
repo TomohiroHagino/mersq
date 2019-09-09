@@ -1,9 +1,6 @@
 <% if @user ||= current_user %>
 <% provide(:title, @user.name) %>
   <h1>スクレイピング</h1>
-    <div class="center">
-    <b><font color="#FF0000">徒然なるままにWEBバージョン完成！</font></b>
-    </div>
     <div class="col-xs-12 col-md-12 col-lg-12">
     <%= form_with url: scrape_path, method: :get, local: true do | search_item | %>
     <dt>
