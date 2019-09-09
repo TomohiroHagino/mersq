@@ -251,6 +251,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @user = User.find_by(id: params[:id])
     @user.destroy
     flash[:success] = "#{@user.name}のデータを削除しました。"
     redirect_to users_url
