@@ -8,9 +8,10 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       log_in user
       remember user
+      flash[:success] = 'ログインしました。'
       redirect_back_or user
     else
-      flash[:danger] = '認証に失敗しました。'
+      flash[:danger] = 'メールアドレスまたはパスワードが間違っています。'
       render :new
     end
   end
