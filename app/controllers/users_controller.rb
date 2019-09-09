@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     end
     require 'mechanize'
     user = User.find(params[:id])
-    @user.items.delete_all
+    user.items.delete_all
 
     agent = Mechanize.new
     page = agent.get("#{params[:keyword]}")
