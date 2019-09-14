@@ -293,7 +293,4 @@ class UsersController < ApplicationController
       redirect_to root_url unless current_user.admin?
     end
     
-    def greeting
-      @user = User.find(id: params[:id])
-    end
 end

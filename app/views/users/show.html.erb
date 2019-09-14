@@ -1,6 +1,12 @@
 <% if @user ||= current_user %>
 <% provide(:title, @user.name) %>
   <h1>スクレイピング</h1>
+    <!-- loding -->
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
     <div class="col-xs-12 col-md-12 col-lg-12">
     <%= form_with url: scrape_path, method: :get, local: true do | search_item | %>
     <dt>
@@ -8,7 +14,7 @@
     </dt>
     <dd>
     <%= search_item.text_field :keyword, class: "form-control" %>
-    <%= search_item.submit "抽出", class: "btn btn-success form_date_select" %>
+    <%= search_item.submit "抽出", class: "btn btn-success form_date_select loading" %>
     <% end %>
     </dd>
     </div>
@@ -77,5 +83,3 @@
 <% end %>
 <% else %>
 <% end %>
-
-

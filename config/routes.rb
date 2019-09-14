@@ -21,5 +21,5 @@ Rails.application.routes.draw do
   # Youtubeスクレイピング
   get 'users/:id/youtube_scrape',     to: 'users#youtube_scrape', as: :youtube_scrape 
   # ご挨拶ページ
-  get 'users/:id/greeting',      to: 'users#greeting', as: :greeting
+  get 'static_pages/greeting',      to: 'static_pages#greeting', as: :greeting
 end
