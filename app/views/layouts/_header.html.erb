@@ -21,7 +21,7 @@
       <ul class="nav navbar-nav navbar-right">
       <% if logged_in? %>
         <li><%= link_to "スクレイピング", user_path(@user), id:"navbar-right-custom" %></li>
-        <li><%= link_to "使い方", users_how_to_use_path(@user), id:"navbar-right-custom" %></li>
+        <li><%= link_to "連絡事項", users_how_to_use_path(@user), id:"navbar-right-custom" %></li>
         <li><%= link_to "ユーザー一覧", users_path, id:"navbar-right-custom" if current_user.admin? %></li>
 
       <% else %>
