@@ -127,6 +127,10 @@ p {
   }
 }
 
+.version{
+position:absolute; top:30px; right:25px;
+}
+
 .dropdown-menu {
   color: white;
   letter-spacing: -1px;
@@ -235,4 +239,18 @@ p {
 }
 .is-hide{
   display:none;
+}
+
+.plus-mark{
+  color: rgb(231, 61, 9);
+  font-size: 2em;
+  position:relative; top:51px; left:34px;
+}
+
+.delete-buttion-position{
+  position:relative; bottom:54px; left:62px;
+}
+
+.export-buttion-position{
+  position:relative; bottom:54px; right:28px;
 }

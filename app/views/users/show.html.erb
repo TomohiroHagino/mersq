@@ -22,8 +22,8 @@
 <br>
 <%= form_with(model: @item, local: true) do |f|%>
 <div class = "container">
-　<div class="center col-xs-1 col-md-1 col-lg-1"><%= f.submit "削除", class: "btn btn-danger" %></div>
-  <div class="center col-xs-4 col-md-4 col-lg-4"><%= link_to "CSVエクスポート", csv_export_path(format: :csv), class: "btn btn-primary" %></div>
+　<div class="center col-xs-1 col-md-1 col-lg-1 delete-buttion-position"><%= f.submit "削除", class: "btn btn-danger" %></div>
+  <div class="center col-xs-4 col-md-4 col-lg-4 export-buttion-position"><%= link_to "CSVエクスポート", csv_export_path(format: :csv), class: "btn btn-primary" %></div>
 </div>
 
 <div class = "container">
@@ -64,7 +64,8 @@
       <td><a href="<%=scraping_item.item_image1%>"><img src="<%=scraping_item.item_image1%>" width="50" height="50" target="_blank"/></a></td>
       <td><a href="<%=scraping_item.item_url%>" target="_blank"><%= scraping_item.item_title %></a></td>
       <td><div class="scroll"><%= scraping_item.item_description %></div></td>
-      <td class="item-done clickable" data-toggle="collapse" data-target="#accordion<%= scraping_item.id %>"><%= scraping_item.item_price %></td>
+      <td><%= scraping_item.item_price %><br>
+      <i class="fas fa-plus-square plus-mark item-done clickable" data-toggle="collapse" data-target="#accordion<%= scraping_item.id %>"></i></td>
     </tr>
     <tr>
         <!-- 全角スペースで位置調整してある -->
