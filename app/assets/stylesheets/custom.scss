@@ -249,8 +249,10 @@ position:absolute; top:30px; right:25px;
 
 .delete-buttion-position{
   position:relative; bottom:54px; left:62px;
+  z-index: 2;
 }
 
 .export-buttion-position{
   position:relative; bottom:54px; right:28px;
+  z-index: 1;
 }

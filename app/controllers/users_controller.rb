@@ -194,8 +194,7 @@ class UsersController < ApplicationController
 
     # 例外処理は省略
     @result = JSON.parse(response.body)
-
-    if @result["items"].nil?
+    if @result["items"] == []
       flash[:danger] = 'キーワード検索がヒットしませんでした。APIキーもしくはチャンネルIDが間違っている可能性があります。'
       return redirect_to users_how_to_use_url
     end
