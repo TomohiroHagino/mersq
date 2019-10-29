@@ -48,7 +48,7 @@ gem 'will_paginate',           '3.1.7'
 #上記のページネーションにbootstrapを適用する
 gem 'bootstrap-will_paginate', '1.0.0'
 #bootstrapが使えるようになる。
-gem 'bootstrap-sass', '3.3.7'
+gem 'bootstrap-sass', '3.4.1'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
