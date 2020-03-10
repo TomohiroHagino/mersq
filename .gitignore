@@ -29,3 +29,13 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# オリジナル
+.c9
+.env
+*.swp
+.DS_Store
+/vendor/bundle
+/vendor/.DS_Store
+bin/heroku.sh
+nginx/logs

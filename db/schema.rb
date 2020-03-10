@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2019_09_02_072015) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "items", force: :cascade do |t|
     t.string "item_title"
     t.string "item_url"
@@ -20,7 +23,7 @@ ActiveRecord::Schema.define(version: 2019_09_02_072015) do
     t.string "item_type"
     t.string "item_category"
     t.string "item_brand"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "item_image1"
@@ -57,8 +60,9 @@ ActiveRecord::Schema.define(version: 2019_09_02_072015) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_youtubes_on_user_id"
   end
 
+  add_foreign_key "youtubes", "users"
 end

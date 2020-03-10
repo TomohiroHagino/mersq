@@ -174,7 +174,7 @@ class UsersController < ApplicationController
 
     youtube_of_user.delete_all if youtube_of_user.present?
     next_page_token = nil
-    
+
     # APIキーは環境変数で設定
     target = URI.encode_www_form({
               part: "snippet",

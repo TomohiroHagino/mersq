@@ -2,7 +2,7 @@ class User < ApplicationRecord
   #「remember_token」という仮想の属性を作成します。
   attr_accessor :remember_token
   has_many :items
-  
+
   # befoore_saveメソッド 大文字の混ざったemailが登録されたら小文字に修正。
   before_save { self.email = email.downcase }
   validates :name, presence: true, length: { maximum: 50 }
